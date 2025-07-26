@@ -14,9 +14,14 @@ public class AuthController {
 
     @PostMapping("/register")
     public String register(@RequestBody User user) {
+        if (user == null || user.getUsername() == null || user.getPassword() == null) {
+            return "Missing username or password";
+        }
+
         if (userRepository.findByUsername(user.getUsername()) != null) {
             return "Username already taken";
         }
+
         userRepository.save(user);
         return "Registration successful";
     }
